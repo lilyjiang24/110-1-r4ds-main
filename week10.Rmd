@@ -1,0 +1,109 @@
+week10
+4.2.3 Date/Time
+
+lubridate::ymd(c("2021/10/30", "2021-10-30", "2021 October 30", "2021 Oct. 30"))
+lubridate::ydm(c("2021/30/10", "2021-30-10", "2021 30 October", "2021 30 Oct."))
+lubridate::mdy(c("10/30/2021", "10-30-2021", "October 30, 2021", "Oct. 30, 2021"))
+lubridate::dmy(c("30/10/2021", "30-10-2021", "30 October, 2021", "30 Oct., 2021"))
+
+# A parsed date data has Date class.
+commonClasses$date <- lubridate::dmy(c("30/10/2021", "30-10-2021", "30 October, 2021", "30 Oct., 2021"))
+class(commonClasses$date)
+
+dateTime_taipei <- 
+  lubridate::ymd_hms(
+    c("2021/10/30 13:22:52", "2021-10-31 1:22:52PM"),
+    tz = "Asia/Taipei")
+dateTime_taipei
+
+dateTime_london <- 
+  lubridate::mdy_hm(
+    c("October 30, 2021, 23:10", "Oct. 30, 2021 11:10PM"),
+    tz="Europe/London")
+dateTime_london
+
+commonClasses$date_time <- c(
+  dateTime_taipei,
+  dateTime_london
+)
+class(commonClasses$date_time)
+
+c(dateTime_taipei, dateTime_london)
+
+commonClasses$date_time
+
+dateTime_london_atTaipei <-
+  lubridate::with_tz(
+    dateTime_london,
+    tz="Asia/Taipei"
+  )
+dateTime_london
+dateTime_london_atTaipei
+
+lubridate::with_tz(
+  c("October 30, 2021, 23:10", "Oct. 30, 2021 1:10AM"),
+  tz="Asia/Taipei"
+)
+
+subsidiaries <- list()
+subsidiaries$boston <- c("2020 Oct. 13 15:00:00", "2019 Apr. 10 09:30:00") # boston time zone
+subsidiaries$mykonos <- c("14 Jan., 2021 03:27:00", "8 Aug., 2020 11:20:00") # mykonos time zone
+
+# No tz required
+# Parsed value will be expressed in UTC time zone
+lubridate::ymd_hms(
+  "2021-11-01T17:41:49+0800"
+)
+
+lubridate::ymd_hms(
+  "2021-11-01T17:41:49+0800", 
+  tz="Europe/London"
+)
+
+4.2.4 Data frame
+
+survey_fbf <-
+  list(
+    age=c(54, 32, 28, 20), # age
+    gender=c("male", "female", "female", "male"), # gender
+    residence=c("north", "south", "east", "east"), # residence
+    income=c(100, 25, NA, 77) # income
+  )
+  
+  survey_df <-
+  data.frame(
+    survey_fbf
+  )
+  
+  survey_df_1step <-
+  data.frame(
+    age=c(54, 32, 28, 20), # age
+    gender=c("male", "female", "female", "male"), # gender
+    residence=c("north", "south", "east", "east"), # residence
+    income=c(100, 25, NA, 77) # income
+  )
+  
+  # a parsed collection value will have data.frame class.
+commonClasses$data_frame <- survey_df_1step
+class(commonClasses$data_frame)
+
+commonClasses$data_frame$gender
+
+survey_fbf2 <-
+  list(
+    age=list(54, 32, 28, 20), # age
+    gender=list("male", "female", "female", "male"), # gender
+    residence=list("north", "south", "east", "east"), # residence
+    income=list(100, 25, NA, 77) # income
+  )
+  
+  data.frame(survey_fbf2)
+  
+  df_survey_fbf2 <- 
+  list2DF(survey_fbf2)
+  
+  
+
+
+
+
