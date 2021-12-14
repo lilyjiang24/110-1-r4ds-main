@@ -1,0 +1,318 @@
+
+## 4.6.2
+
+```{r}
+set.seed(2020)
+A <- sample(50:80, 10, replace=T)
+print(A)
+pick <- A > 60 # is asking 
+whichMetTheCondition <- which(pick)
+```
+
+```{r}
+A[pick]
+A[witchMetTheCondition]
+```
+
+```{r}
+grades <- c(51,70,79,78,67,74,80)
+# mean student grades
+```
+
+```{r}
+puck <- grades > 70 # or
+witchIs70plus <- witch(pick)
+```
+
+```{r}
+grades[pick]
+```
+
+  * `...[pick]` : retrieve those whose grades >70
+  
+  * `grades...`: retreieve from grades for those whose grades > 70
+  
+  * `grades[pick]` retrieve from grades (`grades...`) for those whose grades >70 (`...[pick]`)
+  
+
+```{r}
+grades <- c(51,70,79,78,67,74,80)
+# same 7 student's gender
+gender <- c('female','female','male','male','female','male','male')
+```
+```{r}
+pick <- grades > 70
+gender[pick]
+```
+
+```{r}
+gender[pick] # means
+```
+
+  * retrieve from **gender**
+  
+  * for those whose **genders > 70**
+  
+
+```{r}
+dataSet1 <- 
+  data.frame(
+    school_id = c("001", "002", "003", "004"),
+    course1_grade=c(55, 83, 92, 73),
+    course2_grade=c(50, 88, 72, 77)
+  )
+```
+
+For those who have a grade >=80 in course1, what are their grades in course2?
+
+```{r}
+# For those who have a grade >=80 in course1
+pick <- c(55, 83, 92, 73) >= 80
+pick <- dataSet1$course1_grade >= 80
+
+# what are their grades in course2
+# retrieve their grades in course2
+c(50, 88, 72, 77)[pick]
+dataSet1$course2_grade[pick]
+```
+
+```{r}
+pick <- dataSet1$course1_grade >= 80
+```
+  * For those whose **course1 grades** are >=80,
+
+```{r}
+daraSet1$course2_grade[pick] #[pick] conditional retrieval
+```
+
+  * their **course2 grades** are 
+
+***
+
+For those who have course1 grade >=80,  what are their records
+
+  * A record is a collect of features from the same observation (student).
+
+```{r}
+dataSet1 |> names( ) # |> only R 4.10
+names(dataSet1)
+
+pick <- dataSet1$course1_grade >
+```
+```{r}
+dataSet1$school_id[pick]
+dataSet1$school1_grade[pick]
+dataSet1$school2_grade[pick]
+```
+
+```{r}
+class(dataSet1)
+```
+
+  * `[.row, .col]`
+  
+```{r}
+view(dataSet1)
+```
+
+```{r}
+dataSet1[pick, ] -> subsample
+View(subsample)
+```
+
+  * For those whose course1 grades >= 80 (`[pick, ]`),
+  
+  * their records (`dataSet1`) are: dataSet1[pick, ]`
+  
+***
+Conditional retrieval.
+
+  * For those whose ...,
+  
+  * retrieve xxx.
+
+```{r}
+xxx[...]
+```
+
+```{r}
+subset(dataSet1, course1_grade >=80) -> subsample2
+View(subsample2)
+# same as
+pick <- dataSet1$course1_grade >= 80
+dataSet1[pick, ]
+```
+
+```{r}
+pick <- c(F, T, NA, T)
+
+c(1, 2, 3, 4)[pick]
+```
+
+
+# 4.6.3
+
+```{r}
+gender = c('Female','Male','Male', 'Female')
+age = c(28,41,42,33)
+residence = c('South','South','North', 'North')
+color=c("yellow", "pink", "blue", "green")
+```
+
+  * For those who...
+  
+   *are male
+
+```{r}
+pick <- gender == "Male"
+```
+
+  * For those who...
+  
+   * are male; (AND/OR)
+   
+   *lives in the south
+
+```{r}
+# 1.
+pick_male <- gender == "Male"
+# not 1.
+!pick_male
+# 2.
+pick_south <- residence == "south"
+```
+
+```{r}
+# 1. AND 2.
+pick_male & pick_south
+# 1. OR 2.
+pick_male | pick_south
+```
+
+***
+
+```{r}
+pick <- list()
+```
+
+```{r}
+# For those who are "Male": 
+pick$male <- gender == "Male"
+print(pick$male)
+gender
+# For those who lives in the "South:
+pick$south <- residence == "South"
+print(pick$south)
+residence
+```
+
+```{r}
+# For those who are "Male" 
+#   AND
+#   lives in the "South",
+pick$male_south <- 
+  pick$male & pick$south
+
+print(pick$male_south)
+
+# what are their ages?
+age[pick$male_south]
+```
+
+For those who are “Male” AND lives in the “South”
+(`[pick$male_south]`), what are their ages `age...`?
+
+
+***
+
+For those who are “Male” OR lives in the “South”
+
+```{r}
+pick$maleOsouth <-
+  pick$male | pick$south
+```
+
+what are their ages?
+
+```{r}
+gender
+residence
+ages
+age[pick$maleOsouth]
+```
+
+***
+
+For those who are male or from south, but not both
+
+  * exclude `pick$male & pick$south`
+  
+```{r}
+pick$maleXOsouth <-
+  xor(pick$male, pick$south) -> pick$maleXOsouth
+
+gender
+residence
+age
+age[pick$maleXOsouth]
+```
+
+```{r}
+pick$male
+gender
+color
+color[pick$male]
+color[pick$south]
+color[pick$male & pick&south]
+color[pick$male | pick$south]
+color[xor(pick$male,pick$south)]
+```
+
+```{r}
+# For those who are male, but not from South
+pick$maleXsouth <- 
+  pick$male & !pick$south
+color[pick$maleXsouth]
+
+# For those who are neither male nor from south
+pick$XmaleXsouth <-
+  !pick$male & !pick$south
+color[pick$XmaleXsouth]
+```
+
+```{r}
+!(! pick$male) # the same as
+pick$male
+```
+
+```{r}
+!(pick$male & pick$south) # the same as
+!pick$male | !pick$south
+```
+
+```{r}
+!(pick$male | pick$south) # the same as
+!pick$male & !pick$south
+```
+
+```{r}
+any(pick$male)
+all(pick$male)
+```
+
+```{r}
+pick2 <- c(T, T, NA)
+any(pick2) # T
+all(pick2) # NA
+amy(na.omit(pick2))
+all(na.omit(pick2))
+```
+
+```{r}
+pick3 <- c(F, F, NA)
+any(pick3) # NA
+all(pick3) # T
+```
+
+
+
